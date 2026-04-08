@@ -124,10 +124,15 @@ Create a `.env` file in the backend:
 PORT=5000
 MONGO_URI=your_mongodb_url
 JWT_SECRET=your_secret_key
-OPENAI_API_KEY=your_openai_key
+GROQ_API_KEY=your_openai_key
 ```
 
 Also include `.env.example` in your repo (without values).
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+GROQ_API_KEY=your_groq_api_key
+CLIENT_URL=http://localhost:5173
 
 ---
 
