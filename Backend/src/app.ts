@@ -3,7 +3,6 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
-import mongoSanitize from "express-mongo-sanitize";
 
 import authRoutes from "./modules/auth/auth.routes";
 import appRoutes from "./modules/application/app.routes";

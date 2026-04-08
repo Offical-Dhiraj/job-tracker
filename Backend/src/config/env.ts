@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 
-dotenv.config(); // 🔥 THIS IS REQUIRED
+dotenv.config(); 
 
-const requiredEnv = ["MONGO_URI", "JWT_SECRET", "OPENAI_API_KEY"];
+const requiredEnv = ["MONGO_URI", "JWT_SECRET", "GROQ_API_KEY"];
 
 requiredEnv.forEach((key) => {
   if (!process.env[key]) {
@@ -14,5 +14,5 @@ export const env = {
   PORT: process.env.PORT || "5000",
   MONGO_URI: process.env.MONGO_URI as string,
   JWT_SECRET: process.env.JWT_SECRET as string,
-  OPENAI_API_KEY: process.env.OPENAI_API_KEY as string,
+  GROQ_API_KEY: process.env.GROQ_API_KEY as string,
 };

@@ -1,15 +1,20 @@
-import { Router } from "express";
+import express from "express";
+import {
+  createApplication,
+  getApplications,
+  updateStatus,
+  deleteApplication,
+  updateApplication,
+} from "./app.controller";
+
 import { protect } from "../../middlewares/auth.middleware";
-import * as ctrl from "./app.controller";
 
-const router = Router();
+const router = express.Router();
 
-router.use(protect);
-
-router.post("/", ctrl.createApp);
-router.get("/", ctrl.getApps);
-router.put("/:id", ctrl.updateApp);
-router.delete("/:id", ctrl.deleteApp);
-router.patch("/:id/status", ctrl.updateStatus);
+router.post("/", protect, createApplication);
+router.get("/", protect, getApplications);
+router.patch("/:id/status", protect, updateStatus);
+router.delete("/:id", protect, deleteApplication);
+router.put("/:id", protect, updateApplication);
 
 export default router;

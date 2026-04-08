@@ -1,6 +1,5 @@
-const App = () => {
-  return (
-<h1 className="text-3xl text-red-500">Tailwind Working</h1>  )
-}
+import AppRoutes from "./routes/AppRoutes";
 
-export default App
+export default function App() {
+  return <AppRoutes />;
+}
