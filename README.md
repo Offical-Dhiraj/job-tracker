@@ -141,7 +141,7 @@ CLIENT_URL=http://localhost:5173
 ### 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/job-tracker.git
+git clone https://github.com/Offical-Dhiraj/job-tracker
 cd job-tracker
 ```
 
