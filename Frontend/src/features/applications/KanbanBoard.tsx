@@ -19,7 +19,6 @@ const columns = [
 export default function KanbanBoard() {
   const queryClient = useQueryClient();
 
-  //  FETCH APPLICATIONS (IMPORTANT)
   const { data: apps = [], isLoading } = useQuery({
     queryKey: ["applications"],
     queryFn: async () => {
@@ -28,7 +27,6 @@ export default function KanbanBoard() {
     },
   });
 
-  // DRAG UPDATE
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -48,6 +46,7 @@ export default function KanbanBoard() {
         {columns.map((col) => (
           <div key={col} className="min-w-[280px]">
             <Column
+              id={col} 
               title={col}
               items={apps.filter((a: any) => a.status === col)}
             />
