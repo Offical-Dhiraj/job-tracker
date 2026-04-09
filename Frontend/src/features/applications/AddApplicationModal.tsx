@@ -3,9 +3,19 @@ import { api } from "../../api/axios";
 import { useQueryClient } from "@tanstack/react-query";
 import Input from "../../components/ui/Input";
 
-export default function AddApplicationModal({ onClose }: any) {
+type Props = {
+  onClose: () => void;
+};
+
+type ParsedData = {
+  company?: string;
+  role?: string;
+  skills?: string[];
+};
+
+export default function AddApplicationModal({ onClose }: Props) {
   const [jd, setJd] = useState("");
-  const [parsed, setParsed] = useState<any>(null);
+  const [parsed, setParsed] = useState<ParsedData | null>(null);
   const [loading, setLoading] = useState(false);
 
   const queryClient = useQueryClient();
@@ -19,13 +29,7 @@ export default function AddApplicationModal({ onClose }: any) {
 
       setLoading(true);
 
-      console.log("Sending JD:", jd);
-
-      const res = await api.post("/ai/parse", {
-        jd: jd,
-      });
-
-      console.log("AI RESPONSE:", res.data);
+      const res = await api.post("/ai/parse", { jd });
 
       setParsed(res.data.data);
     } catch (err: any) {
@@ -40,31 +44,24 @@ export default function AddApplicationModal({ onClose }: any) {
     }
   };
 
-  // 🔹 Save Application
   const save = async () => {
-    
-
     if (!parsed) {
       alert("Please parse job description first");
       return;
     }
 
     try {
-      const res = await api.post("/applications", {
+      await api.post("/applications", {
         company: parsed.company || "Unknown",
         role: parsed.role || "Unknown",
         skills: parsed.skills || [],
         status: "Applied",
       });
 
-
-      // refresh applications
       await queryClient.invalidateQueries({ queryKey: ["applications"] });
-
-      // close modal
       onClose();
     } catch (err: any) {
-      console.error(" SAVE ERROR:", err?.response?.data || err.message);
+      console.error("SAVE ERROR:", err?.response?.data || err.message);
 
       alert(
         err?.response?.data?.message ||
@@ -75,9 +72,8 @@ export default function AddApplicationModal({ onClose }: any) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50">
-      
       <div className="bg-[#111827] p-6 rounded-2xl w-[90%] max-w-lg">
-
+        
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-white">
@@ -108,14 +104,12 @@ export default function AddApplicationModal({ onClose }: any) {
         {/* Parsed Data */}
         {parsed && (
           <div className="mt-5 space-y-3">
-
             <Input value={parsed.company || ""} readOnly />
             <Input value={parsed.role || ""} readOnly />
 
-            {/* Skills */}
             {parsed.skills && (
               <div className="flex flex-wrap gap-2">
-                {parsed.skills.map((skill: string, i: number) => (
+                {parsed.skills.map((skill, i) => (
                   <span
                     key={i}
                     className="px-2 py-1 text-xs bg-blue-500/20 text-blue-300 rounded"
@@ -126,12 +120,11 @@ export default function AddApplicationModal({ onClose }: any) {
               </div>
             )}
 
-            {/* Save Button */}
             <button
               onClick={save}
               className="w-full mt-4 py-2 bg-green-600 rounded-lg text-white"
             >
-               Save Application
+              Save Application
             </button>
           </div>
         )}

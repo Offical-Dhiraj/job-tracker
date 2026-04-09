@@ -1,19 +1,19 @@
 import { useDroppable } from "@dnd-kit/core";
 import Card from "../../components/ui/Card";
 
-export default function Column({ id, title, items, activeId }: any) {
+type Props = {
+  id: string;
+  title: string;
+  items: any[];
+};
+
+export default function Column({ id, title, items }: Props) {
   const { setNodeRef, isOver } = useDroppable({
     id,
   });
-  {items.length === 0 && (
-  <p className="text-gray-400 text-sm text-center mt-4">
-    No applications yet 
-  </p>
-)}
 
   return (
     <div
-    
       ref={setNodeRef}
       className={`min-w-[280px] glass p-4 rounded-xl transition-all
         ${isOver ? "bg-purple-500/10 scale-[1.02]" : ""}
@@ -24,9 +24,15 @@ export default function Column({ id, title, items, activeId }: any) {
       </h2>
 
       <div className="space-y-3">
-        {items.map((item: any) => (
-          <Card key={item._id} item={item} />
-        ))}
+        {items.length === 0 ? (
+          <p className="text-gray-400 text-sm text-center mt-4">
+            No applications yet
+          </p>
+        ) : (
+          items.map((item) => (
+            <Card key={item._id} item={item} />
+          ))
+        )}
       </div>
     </div>
   );
